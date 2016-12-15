@@ -55,5 +55,21 @@ namespace HRMTWeb.Controllers
                 return RedirectToAction("StockQuery", "Home");
             }
         }
+        [Authentication]
+        [HttpPost]
+        public ActionResult ChangePwd(string newPWD)
+        {
+            string errText = "";
+            try
+            {
+                UserAction.UpdatePassword(AppSessionHelper.User.wldwid, newPWD);
+            }
+            catch (Exception ex)
+            {
+                errText = ex.Message;
+            }
+            var retJObj = new { IsSuccess = string.IsNullOrEmpty(errText), ErrText = errText };
+            return Json(retJObj);
+        }
     }
 }

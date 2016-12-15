@@ -43,21 +43,17 @@
         <div data-role="main" class="ui-content">
             <div class="form-bottom">
                 <div class="form-group">
-                    <label class="sr-only" for="form-oldPassword">原密码</label>
-                    <input type="password" name="form-oldPassword" placeholder="原密码..." class="form-password form-control" id="form-oldPassword">
-                </div>
-                <div class="form-group">
                     <label class="sr-only" for="form-newPassword">新密码</label>
                     <input type="password" name="form-newPassword" placeholder="新密码..." class="form-password form-control" id="form-newPassword">
                 </div>
                 <div class="form-group">
                     <label class="sr-only" for="form-configNewPassword">确认新密码</label>
-                    <input type="password" name="form-configNewPassword" placeholder="确认新密码..." class="form-password form-control" id="form-configNewPassword">
+                    <input type="password" name="form-configNewPassword" placeholder="确认新密码..." class="form-password form-control" id="form-confirmNewPassword">
                 </div>
             </div>
         </div>
         <div data-role="footer" class="button_line">
-            <a href="javascript:closePop()" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a ui-icon-edit ui-btn-icon-left">修改</a>
+            <a class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a ui-icon-edit ui-btn-icon-left" id="lbSavePWD">修改</a>
             <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a ui-icon-back ui-btn-icon-left" data-rel="back">返回</a>
         </div>
     </div>
@@ -66,7 +62,37 @@
 }
     <script>
         $(function () {
-
+            $("#lbSavePWD").click(function () {
+                var newPwd = $("#form-newPassword").val(),
+                    confirmNewPwd = $("#form-confirmNewPassword").val();
+                if (newPwd == "") {
+                    alert("请输入新密码!");
+                    return;
+                }
+                if (confirmNewPwd == "") {
+                    alert("请输入确认新密码!");
+                    return;
+                }
+                if (confirmNewPwd != newPwd) {
+                    alert("两次输入的密码不相同!");
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/Login/ChangePwd",
+                    dataType: "json",
+                    data: { NewPWD : newPwd },
+                    success: function (ret) {
+                        if (ret.IsSuccess) {
+                            alert("修改密码成功!");
+                            closePop();
+                        }
+                        else {
+                            alert("修改密码失败!信息:" + ret.ErrText);
+                        }
+                    }
+                });
+            });
         });
         function closePop() {
             $("#popChangePwd").popup('close');
