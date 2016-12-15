@@ -22,7 +22,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Procedure", "Procedure", "{E8056647-D367-4A61-A4B9-8849E5ACD0D8}"
 	ProjectSection(SolutionItems) = preProject
 		Database\Procedure\p_new_CpKcQuery.sql = Database\Procedure\p_new_CpKcQuery.sql
-		Database\Procedure\p_new_Create_Order.sql = Database\Procedure\p_new_Create_Order.sql
 		Database\Procedure\p_new_Customer_BillQuery.sql = Database\Procedure\p_new_Customer_BillQuery.sql
 		Database\Procedure\p_Order_Query.sql = Database\Procedure\p_Order_Query.sql
 	EndProjectSection
