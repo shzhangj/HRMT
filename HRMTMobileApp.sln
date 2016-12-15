@@ -28,6 +28,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Procedure", "Procedure", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMTWeb", "Source\HRMTWeb\HRMTWeb.csproj", "{A259E65C-2A5B-4009-80AA-A62B7A490703}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "init", "init", "{23B59C2B-5E48-4D89-92A0-92727C99AF92}"
+	ProjectSection(SolutionItems) = preProject
+		Database\init\t_gwc.sql = Database\init\t_gwc.sql
+		Database\init\t_khshrlb.sql = Database\init\t_khshrlb.sql
+		Database\init\tablefix.sql = Database\init\tablefix.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -73,5 +80,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E8056647-D367-4A61-A4B9-8849E5ACD0D8} = {BCA94671-E464-4766-A2AE-D0DB3FC4C022}
+		{23B59C2B-5E48-4D89-92A0-92727C99AF92} = {BCA94671-E464-4766-A2AE-D0DB3FC4C022}
 	EndGlobalSection
 EndGlobal
