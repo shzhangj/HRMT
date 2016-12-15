@@ -1,0 +1,14 @@
+﻿tr {
+    border-bottom: 1px solid lightgray;
+}
+.button_line{
+    text-align:center;
+    background-color:#fafafa;
+    padding:5px 0 5px 0;
+}
+.alertor{
+    text-align:center;
+}
+.alertor p{
+    color:red;
+}

@@ -1,0 +1,78 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{F0471BF8-CC81-4292-9D1F-5B641D40F930}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{437B2F4F-2F64-4EE3-87A5-9E59D3CCEA18}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\Gma.QrCodeNet.Encoding.dll = Lib\Gma.QrCodeNet.Encoding.dll
+		Lib\HTMLparserLibDotNet20.dll = Lib\HTMLparserLibDotNet20.dll
+		Lib\Newtonsoft.Json.Net35.dll = Lib\Newtonsoft.Json.Net35.dll
+		Lib\SpreadsheetGear.dll = Lib\SpreadsheetGear.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataBase", "DataBase", "{BCA94671-E464-4766-A2AE-D0DB3FC4C022}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Source\Framework\Framework.csproj", "{644242BC-7F87-480C-9A2C-5599FBA30396}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Dapper", "Source\Core.Dapper\Core.Dapper.csproj", "{4749AAC2-EE14-40BF-8BAA-DDA5527411A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Procedure", "Procedure", "{E8056647-D367-4A61-A4B9-8849E5ACD0D8}"
+	ProjectSection(SolutionItems) = preProject
+		Database\Procedure\p_new_CpKcQuery.sql = Database\Procedure\p_new_CpKcQuery.sql
+		Database\Procedure\p_new_Create_Order.sql = Database\Procedure\p_new_Create_Order.sql
+		Database\Procedure\p_new_Customer_BillQuery.sql = Database\Procedure\p_new_Customer_BillQuery.sql
+		Database\Procedure\p_Order_Query.sql = Database\Procedure\p_Order_Query.sql
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMTWeb", "Source\HRMTWeb\HRMTWeb.csproj", "{A259E65C-2A5B-4009-80AA-A62B7A490703}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Any CPU = CD_ROM|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		DVD-5|Any CPU = DVD-5|Any CPU
+		Release|Any CPU = Release|Any CPU
+		SingleImage|Any CPU = SingleImage|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{644242BC-7F87-480C-9A2C-5599FBA30396}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{644242BC-7F87-480C-9A2C-5599FBA30396}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{644242BC-7F87-480C-9A2C-5599FBA30396}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{644242BC-7F87-480C-9A2C-5599FBA30396}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{644242BC-7F87-480C-9A2C-5599FBA30396}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{644242BC-7F87-480C-9A2C-5599FBA30396}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{644242BC-7F87-480C-9A2C-5599FBA30396}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{644242BC-7F87-480C-9A2C-5599FBA30396}.Release|Any CPU.Build.0 = Release|Any CPU
+		{644242BC-7F87-480C-9A2C-5599FBA30396}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{644242BC-7F87-480C-9A2C-5599FBA30396}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{4749AAC2-EE14-40BF-8BAA-DDA5527411A8}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{4749AAC2-EE14-40BF-8BAA-DDA5527411A8}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{4749AAC2-EE14-40BF-8BAA-DDA5527411A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4749AAC2-EE14-40BF-8BAA-DDA5527411A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4749AAC2-EE14-40BF-8BAA-DDA5527411A8}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{4749AAC2-EE14-40BF-8BAA-DDA5527411A8}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{4749AAC2-EE14-40BF-8BAA-DDA5527411A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4749AAC2-EE14-40BF-8BAA-DDA5527411A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4749AAC2-EE14-40BF-8BAA-DDA5527411A8}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{4749AAC2-EE14-40BF-8BAA-DDA5527411A8}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{A259E65C-2A5B-4009-80AA-A62B7A490703}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{A259E65C-2A5B-4009-80AA-A62B7A490703}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{A259E65C-2A5B-4009-80AA-A62B7A490703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A259E65C-2A5B-4009-80AA-A62B7A490703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A259E65C-2A5B-4009-80AA-A62B7A490703}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{A259E65C-2A5B-4009-80AA-A62B7A490703}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{A259E65C-2A5B-4009-80AA-A62B7A490703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A259E65C-2A5B-4009-80AA-A62B7A490703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A259E65C-2A5B-4009-80AA-A62B7A490703}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{A259E65C-2A5B-4009-80AA-A62B7A490703}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E8056647-D367-4A61-A4B9-8849E5ACD0D8} = {BCA94671-E464-4766-A2AE-D0DB3FC4C022}
+	EndGlobalSection
+EndGlobal

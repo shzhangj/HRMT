@@ -1,0 +1,183 @@
+﻿@{
+    ViewBag.Title = "收货地址编辑";
+    Layout = "~/Views/Shared/_LayoutInner.cshtml";
+}
+
+<div data-role="page" id="pgAddressList">
+    <div data-role="header">
+        <a href="#" id="btnBack" class="ui-btn ui-btn-left ui-corner-all ui-icon-back ui-btn-icon-left">返回</a>
+        <h1>收货地址编辑</h1>
+    </div>
+    <ul data-role="listview" data-inset="true" id="ulAddress">        
+    </ul>
+    <div class="button_line">
+        <button type="button" class="ui-btn ui-btn-inline" id="btnAddNewAddr">新增地址</button>
+    </div>
+</div>
+<div data-role="page" id="pgAddressEdit">
+    <form id="fmAddress">
+        <ul data-role="listview" data-inset="true">
+            <li>
+                送货地址
+            </li>
+            <li>
+                @Html.Hidden("tbxAddressID")
+                @Html.Hidden("hidProcessType")
+                @Html.TextBox("tbxAddressText")
+            </li>
+            <li>
+                送货联系人
+            </li>
+            <li>
+                @Html.TextBox("tbxContactPerson")
+            </li>
+            <li>
+                电话
+            </li>
+            <li>
+                @Html.TextBox("tbxContactTel")
+            </li>
+            <li>
+                手机
+            </li>
+            <li>
+                @Html.TextBox("tbxContactMobile")
+            </li>
+            <li>
+                送货方式
+            </li>
+            <li>
+                <select name="ddlExpressCompanyID" id="ddlExpressCompanyID"></select>
+            </li>
+        </ul>
+    </form>
+    <div class="button_line">
+        <button type="button" class="ui-btn ui-btn-inline" id="btnAddrSave">保存</button>
+        <button type="button" class="ui-btn ui-btn-inline" id="btnCancelSave">取消</button>
+    </div>
+</div>
+<script>
+    
+    $(document).on("pagecreate", "#pgAddressList", function () {
+        //显示地址列表
+        f_ShowAddressList();
+    });
+    function f_bindTapEvent() {
+        $(".addr-line").on("taphold", function () {
+            f_ShowAddress($(this).children("#hidAddressID").val());
+        });
+    }
+    $(function () {
+        //alert($(".addr-line").length);
+        $("#btnAddNewAddr").click(function () {
+            f_ShowAddress();
+        });
+        $("#btnAddrSave").click(function () {
+            $("#hidProcessType").val("Edit");
+            f_GetAddress();
+        });
+        $("#btnBack").click(function () {
+            window.parent.f_backToMain();
+        });
+        $("#btnCancelSave").click(function () {
+            $.mobile.changePage('#pgAddressList');
+            f_bindTapEvent();
+        });
+        
+        /* TODO::验证
+        $("#fmAddress").validate({
+            rules: {
+                tbxAddressText: "required",
+                tbxContactPerson: "required",
+                tbxContactTel: {
+                    required: true,
+                    minlength: 50
+                },
+                ddlExpressCompanyCode: "required",
+            },
+            messages: {
+                tbxAddressText: "请输入送货地址",
+                tbxContactPerson: "请输入送货联系人",
+                tbxContactTel: {
+                    required: "请输入送货联系电话",
+                    maxlength: "送货联系电话不能大于50个字符"
+                },
+                ddlExpressCompanyCode: "请选择送货方式"
+            }
+        });*/
+
+    });
+    function f_ShowAddress(addressID) {
+        clearForm();
+        $.mobile.changePage('#pgAddressEdit');
+        $("#tbxAddressID").val(addressID);
+        $("#hidProcessType").val("Query");
+        f_ShowExpressSelector(function () {
+            if (addressID != undefined)
+                f_GetAddress();
+        });
+    }
+    function f_GetAddress() {
+        $.ajax({
+            type: "POST",
+            url: "/Home/AddressEdit",
+            dataType: "json",
+            data: $('#fmAddress').serialize(),
+            success: function (ret) {
+                if (ret.IsSuccess) {
+                    var addrObj = ret.Address;
+                    $("#tbxAddressID").val(addrObj.AddressID);
+                    $("#tbxAddressText").val(addrObj.AddressText);
+                    $("#tbxContactPerson").val(addrObj.ContactPerson);
+                    $("#tbxContactTel").val(addrObj.ContactTel);
+                    $("#ddlExpressCompanyID").val(addrObj.ExpressCompanyID);
+                    $("#ddlExpressCompanyID").selectmenu('refresh');
+                    if ($("#hidProcessType").val() == "Edit") {
+                        $.mobile.changePage('#pgAddressList');
+                        f_ShowAddressList();
+                    }
+                }
+                else {
+                    alert("操作失败!信息:" + ret.ErrText);
+                }
+            }
+        });
+    }
+    function f_ShowAddressList() {
+        $.ajax({
+            type: "POST",
+            url: "/Home/ViewAddressList",
+            dataType: "html",
+            data: {},
+            success: function (ret) {
+                $("#ulAddress").children().remove();
+                $("#ulAddress").append(ret);
+                $("#ulAddress").listview('refresh');
+                f_bindTapEvent();
+            }
+        });
+    }
+    function f_ShowExpressSelector(callback) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/ExpressSelector",
+            dataType: "html",
+            data: {},
+            success: function (ret) {
+                $("#ddlExpressCompanyID").html(ret);
+                $("#ddlExpressCompanyID").selectmenu('refresh', true);
+                if (typeof callback == 'function')
+                    callback.call();
+            }
+        });
+    }
+    function clearForm() {
+        $("#hidProcessType").val("");
+        $("#tbxAddressID").val("");
+        $("#tbxAddressText").val("");
+        $("#tbxContactPerson").val("");
+        $("#tbxContactTel").val("");
+        $("#ddlExpressCompanyCode").val("");
+        $("#ddlExpressCompanyCode").selectmenu('refresh');
+    }
+</script>

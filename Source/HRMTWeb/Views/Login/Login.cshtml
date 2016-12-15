@@ -1,0 +1,92 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>华尔美特网上订单管理系统</title>
+    <!-- CSS -->   
+    @Styles.Render("~/Content/Bootstrap/bootstrap/css/bootstrap.css")
+    @Styles.Render("~/Content/Bootstrap/assets_login/font-awesome/css/font-awesome.min.css")
+    @Styles.Render("~/Content/Bootstrap/assets_login/css/form-elements.css")
+    @Styles.Render("~/Content/Bootstrap/assets_login/css/style.css")
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->   
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Content/Bootstrap/bootstrap/js/bootstrap.js")
+    @Scripts.Render("~/Scripts/jquery.backstretch.min.js")
+</head>
+<body>
+    <!-- Top content -->
+    <div class="top-content">
+        <div class="inner-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2 text">
+                        <h1><strong>做世界最好的</strong>墙纸</h1>
+                        <div class="description">
+                            <p>
+                                To offer the world's best wallpaper
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3 form-box">
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3>华尔美特网上订单管理系统</h3>
+                                <p>Wallmate online order management system</p>
+                            </div>
+                            <div class="form-top-right">
+                                <i class="fa fa-key"></i>
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            <form role="form" action="/Login/DoLogin" method="post" class="login-form">
+                                <div class="form-group">
+                                    <label class="sr-only" for="form-username">账号</label>
+                                    <input type="text" name="form_username" placeholder="账号..." class="form-username form-control" id="form_username" value="@ViewData["UserCode"]">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="form-password">密码</label>
+                                    <input type="password" name="form_password" placeholder="密码..." class="form-password form-control" id="form_password">
+                                </div>
+                                <button type="submit" class="btn">登录</button>
+                            </form>
+                            <div class="alert alert-warning" role="alert">
+                                <p id="retMsg">@ViewData["RetMessage"]</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3 social-login">
+                        <div class="social-login-buttons">
+                            <a class="btn btn-link-1" href="#">
+                                <i class="fa fa-twitter"></i> 系统设置
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $(".container").css({ opacity: .8 });   //设置透明度
+            $.backstretch([
+                  "/Content/Bootstrap/assets_login/img/backgrounds/1.jpg",
+                  "/Content/Bootstrap/assets_login/img/backgrounds/1@2x.jpg"
+            ], { duration: 3000, fade: 750 });            
+        });
+    </script>
+</body>
+</html>

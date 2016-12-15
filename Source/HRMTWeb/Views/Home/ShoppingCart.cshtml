@@ -1,0 +1,177 @@
+﻿@model HRMTWeb.Models.ShoppingCartContainer
+
+@{
+    ViewBag.Title = "购物车";
+}
+<div data-role="page" id="pgShoppingCart" style="font-size:small">
+@if (Model.ShoppingCartList.Count > 0)
+{
+    <form action="/Home/ShoppingSubmit" method="post" id="formSubmit" >        
+        @for (int i = 0; i < Model.ShoppingCartList.Count; i++)
+        {
+            <ul data-role="listview" data-inset="true">
+                <li data-icon="info">
+                    <ul data-role="listview">
+                        <li data-role="list-divider" class="productItem">
+                            <label for="cbx_@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].gwcid)">@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].cpcode)</label>
+                            <input type="checkbox" name="ShoppingCartList[@i].selected" id="cbx_@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].gwcid)" class="p_Cbx">
+                            <input type="hidden" name="ShoppingCartList[@i].gwcid" value="@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].gwcid)" class="p_gwcid" />
+                            <input type="hidden" name="ShoppingCartList[@i].cpcode" value="@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].cpcode)" />
+                            <input type="hidden" name="ShoppingCartList[@i].cpzlName" value="@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].cpzlName)" />
+                            <input type="hidden" name="ShoppingCartList[@i].FPrice" value="@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].FPrice)" class="p_Price" />
+                        </li>
+                        <li>@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].cpzlName)</li>
+                        <li class="liQty">
+                            @Html.DisplayFor(modelItem => Model.ShoppingCartList[i].FPrice)
+                            <input type="range" name="ShoppingCartList[@i].FQtry" id="tbxQty" class="p_Qty" value="@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].FQtry)" min="0" max="50" step="1">
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        }
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                合计金额：<span id="spTotalAmount">@Html.DisplayFor(model => model.TotalAmount)</span>
+                <input type="hidden" name="TotalAmount" id="hidTotalAmount" value="@Html.DisplayFor(model => model.TotalAmount)" />
+            </li>
+            <li data-role="list-divider">
+                <div class="ui-grid-a ui-responsive">
+                    <div class="ui-block-a">
+                        收货地址
+                    </div>
+                    <div class="ui-block-b">                        
+                        <a id="lbAddressModify" href="#" class="ui-btn ui-btn-inline" style="margin:0;padding:0;float:right">编辑</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <select name="ddlAddress" id="ddlAddress"></select>                
+                <input type="hidden" name="AddressID" id="hidAddressID" value="@Html.DisplayFor(model => model.AddressID)" />
+            </li>            
+        </ul>
+        <input type="text" id="tbxRemark" name="Remark" placeholder="备注" value="@Model.Remark" />
+        <input type="hidden" name="CustomerID" value="@Model.CustomerID" />
+        <input type="hidden" name="IsDirectBuy" value="@Model.IsDirectBuy" />
+    </form>
+    <button id="submit" type="button">提交订单</button>
+}
+else
+{
+    <div class="alertor">
+        <p class="alert alert-info">购物车中无记录!</p>
+    </div>
+}   
+
+    @{
+        Html.RenderPartial("_LayoutFooter");
+    }
+</div>
+<div data-role="page" id="pgAddressContainer">
+    <iframe id="ifAddressContainer" style="width:100%;height:100%;border:none"></iframe>
+</div>
+<script>
+    $(function () {
+        $(".productItem").on("swiperight", function () {
+            var gwcid = $(this).find(".p_gwcid").val();
+            var currObj = $(this).parent().parent();
+            f_DeleteShopingCart(gwcid, function () {
+                currObj.remove();
+            });
+        });
+        $("#lbAddressModify").click(function () {
+            var pgAddressContainer = $("#pgAddressContainer");
+            $("#ifAddressContainer").css("height", pgAddressContainer.css("height"));
+            $("#ifAddressContainer").css("width", pgAddressContainer.css("width"));
+            $("#ifAddressContainer").attr("src", "/Home/AddressModify");
+            $.mobile.changePage("#pgAddressContainer");
+        });
+        $("#submit").click(function () {
+            f_submitOrder();
+        });
+        $(".p_Cbx").change(function () {
+            f_CalcTotalAmount();
+        });
+        $(".p_Qty").change(function () {
+            f_CalcTotalAmount();
+        });
+        //加载地址
+        bindAddressSelector();
+    });
+    function Match_Round(value, precision) {
+        return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision);
+    }
+    function f_CalcTotalAmount() {
+        var totalAmount = 0;
+        $(".p_Cbx").each(function (i, n) {
+            var cbx = $(n);
+            if (!cbx.prop("checked")) return;
+            var price = parseFloat(cbx.parent().nextAll(".p_Price").val());
+            if (isNaN(price))
+                price = 0;
+            var qty = parseInt(cbx.parent().parent().nextAll(".liQty").find("#tbxQty").val());
+            if (isNaN(qty))
+                qty = 0;
+            var amount = Match_Round(price * qty,2);
+            totalAmount += amount;
+        });
+        $("#spTotalAmount").html(totalAmount);
+        $("#hidTotalAmount").val(totalAmount);
+    }
+    function f_submitOrder() {
+        $.ajax({
+            type: "POST",
+            url: "/Home/ShoppingSubmit",
+            dataType: "json",
+            data: $('#formSubmit').serialize(),
+            success: function (ret) {
+                if (ret.IsSuccess) {
+                    alert("操作成功!");
+                    location.href = ret.ReloadURL;
+                }
+                else {
+                    alert("操作失败!信息:" + ret.ErrText);
+                }
+            }
+        });
+    }
+    function f_DeleteShopingCart(gwcid,callback) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/DeleteShoppingCart",
+            dataType: "json",
+            data: { gwcid : gwcid },
+            success: function (ret) {
+                if (ret.IsSuccess) {
+                    if (typeof (callback) == 'function')
+                        callback.call();
+                }
+                else {
+                    alert("操作失败!信息:" + ret.ErrText);
+                }
+            }
+        });
+    }
+    function bindAddressSelector() {
+        $.ajax({
+            type: "POST",
+            url: "/Home/ViewAddressSelector",
+            dataType: "html",
+            data: {},
+            success: function (ret) {
+                $("#ddlAddress").html(ret);
+                $("#ddlAddress").change(function () {
+                    $("#hidAddressID").val($("#ddlAddress").val());
+                });
+                var currentAddressID = $("#hidAddressID").val();
+                if (currentAddressID != "")
+                    $("#ddlAddress").val(currentAddressID);
+                $("#ddlAddress").selectmenu('refresh', true);
+            }
+        });
+    }
+    function f_backToMain() {
+        $.mobile.changePage("#pgShoppingCart");
+        //加载地址
+        bindAddressSelector();
+    }
+</script>

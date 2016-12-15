@@ -1,0 +1,104 @@
+﻿@model HRMTWeb.Models.ProductInfo
+
+@{
+    ViewBag.Title = "库存查询";
+}
+<form role="form" action="/Home/DoStockQuery" method="post">
+    <input type="search" id="QueryKey" name="QueryKey" placeholder="请输入需要查询的产品型号">
+</form>
+@if (Model != null && Model.cpdnid.HasValue)
+{
+    <form action="/Home/DirectBuy" method="post" id="frmDirectBuy" data-ajax="false">
+        <table data-role="table" class="ui-responsive" style="font-size:small">
+            <thead>
+                <tr>
+                    <th>产品型号</th>
+                    <th>产品名称</th>
+                    <th>中类名称</th>
+                    <th>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格</th>
+                    <th>库存数量</th>
+                    <th>已定数量</th>
+                    <th>购买数量</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayFor(model => model.c_cpdn_ecode)</td>
+                    <td>@Html.DisplayFor(model => model.c_cpdn_ename)</td>
+                    <td>@Html.DisplayFor(model => model.c_cpzl_ename)</td>
+                    <td>@Html.DisplayFor(model => model.dj)</td>
+                    <td>@Html.DisplayFor(model => model.kcsl)</td>
+                    <td>@Html.DisplayFor(model => model.ydsl)</td>
+                    <td>
+                        <input type="range" name="FQtry" id="tbxQty" value="1" min="0" max="100">
+                        <input type="hidden" id="hid_cpcode" name="cpcode" value="@Model.c_cpdn_ecode">
+                        <input type="hidden" id="hid_cpzlName" name="cpzlName" value="@Model.c_cpzl_ename">
+                        <input type="hidden" id="hid_cpdnid" name="cpdnid" value="@Model.cpdnid">
+                        <input type="hidden" id="hid_cpzlid" name="cpzlid" value="@Model.cpzlid">
+                        <input type="hidden" id="hid_dj" name="FPrice" value="@Model.dj">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+<div style="text-align:center">
+    <h5 style="color:red">@Html.DisplayFor(model => model.kcxssm)</h5>
+</div>
+    <div class="button_line">
+        <button type="button" class="ui-btn ui-btn-inline" id="btnBuy">直接购买</button>
+        <button type="button" class="ui-btn ui-btn-inline" id="btnAddToShoppingCart">加入购物车</button>
+    </div>
+}
+else if (Model != null && Model.cpdnid == null)
+{
+    <div class="alertor">
+        <p>@ViewData["RetMessage"]</p>
+    </div>
+}
+@{
+    Html.RenderPartial("_LayoutFooter");
+}
+<script>
+    $(function () {
+        $("#btnBuy").click(function () {
+            f_Buy();
+        });
+        $("#btnAddToShoppingCart").click(function () {
+            f_AddToShoppingCart();
+        });
+    });
+    function f_Buy() {
+        var qty = parseInt($("#tbxQty").val());
+        if (isNaN(qty) || qty == 0) {
+            alert("请选择数量!");
+            return;
+        }
+        $("#frmDirectBuy").submit();
+    }
+    function f_AddToShoppingCart() {
+        var qty = parseInt($("#tbxQty").val());
+        if (isNaN(qty) || qty == 0) {
+            alert("请选择数量!");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Home/AddToShopping",
+            dataType: "json",
+            data: {
+                cpdnid: $("#hid_cpdnid").val(),
+                cpzlid: $("#hid_cpzlid").val(),
+                FPrice: $("#hid_dj").val(),
+                FQtry: $("#tbxQty").val()
+            },
+            success: function (ret) {
+                if (ret.IsSuccess) {
+                    alert("加入成功!");
+                }
+                else {
+                    alert("加入失败!信息:" + ret.ErrText);
+                }
+            }
+        });
+    }
+</script>

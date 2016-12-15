@@ -1,0 +1,9 @@
+﻿@model List<HRMTWeb.Models.AddressInfo>
+@{
+    Layout = null;
+}
+<option value="">请选择</option>
+@foreach (var item in Model)
+{
+    <option value="@Html.DisplayFor(modelItem => item.AddressID)">@Html.DisplayFor(modelItem => item.AddressText)/@Html.DisplayFor(modelItem => item.ContactPerson)/@Html.DisplayFor(modelItem => item.ContactTel)</option>
+}

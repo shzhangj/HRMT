@@ -1,0 +1,109 @@
+﻿@model HRMTWeb.Models.VoucherContainer
+
+@{
+    ViewBag.Title = "对账单";
+}
+
+@Scripts.Render("~/bundles/mobiscroll")
+@Styles.Render("~/bundles/mobiscroll/css")
+
+<form role="form" action="/Home/DoVoucherQuery" method="post">
+    <input type="text" id="FromDate" name="FromDate" placeholder="起始日期" value="2016-10-26" />
+    <input type="text" id="ToDate" name="ToDate" placeholder="结束日期" value="2016-11-26" />
+    <div class="button_line">
+        <button type="submit" class="ui-btn ui-btn-inline">查询</button>
+    </div>
+</form>
+@if (Model != null)
+{
+    <h3>本期发生明细</h3>
+    <table data-role="table" class="ui-responsive" style="font-size:small">
+        <thead>
+            <tr>
+                <th>交易日</th>
+                <th>单据类型</th>
+                <th>单号</th>
+                <th>型号</th>
+                <th>批号</th>
+                <th>单位</th>
+                <th>数量</th>
+                <th>单价</th>
+                <th>折扣</th>
+                <th>金额</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.VoucherList)
+            {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.TradingDay)</td>
+                <td>@Html.DisplayFor(modelItem => item.BillType)</td>
+                <td>@Html.DisplayFor(modelItem => item.BillNo)</td>
+                <td>@Html.DisplayFor(modelItem => item.ModelNo)</td>
+                <td>@Html.DisplayFor(modelItem => item.BatchNo)</td>
+                <td>@Html.DisplayFor(modelItem => item.Unit)</td>
+                <td>@Html.DisplayFor(modelItem => item.Qty)</td>
+                <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                <td>@Html.DisplayFor(modelItem => item.Discount)</td>
+                <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <h3>收款明细</h3>
+    <table data-role="table" class="ui-responsive" style="font-size:small">
+        <thead>
+            <tr>
+                <th>交易日</th>
+                <th>单据类型</th>
+                <th>单号</th>
+                <th>金额</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CollectionDetails)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TradingDay)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BillType)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BillNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+<h3>结算统计</h3>
+<table data-role="table" class="ui-responsive" style="font-size:small">
+    <thead>
+        <tr>
+            <th>期初余额</th>
+            <th>本期发生额</th>
+            <th>本期其它</th>
+            <th>本期余额</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Html.DisplayFor(model => model.VoucherSummary.InitialBalance)</td>
+            <td>@Html.DisplayFor(model => model.VoucherSummary.CurrentPeriodAmount)</td>
+            <td>@Html.DisplayFor(model => model.VoucherSummary.CurrentPeriodOtherAmount)</td>
+            <td>@Html.DisplayFor(model => model.VoucherSummary.CurrentPeriodBalance)</td>
+        </tr>
+    </tbody>
+</table>
+}
+else
+{
+    <div class="alertor">
+        <p class="alert alert-info">@ViewData["RetMessage"]</p>
+    </div>
+}
+@{
+    Html.RenderPartial("_LayoutFooter");
+}
+<script>
+    $(function () {
+        $("#FromDate").mobiscroll().date();
+        $("#ToDate").mobiscroll().date();
+    });
+</script>

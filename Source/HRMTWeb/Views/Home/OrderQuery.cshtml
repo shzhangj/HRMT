@@ -1,0 +1,50 @@
+﻿@model HRMTWeb.Models.OrderContainer
+
+@{
+    ViewBag.Title = "我的订单";
+}
+<form role="form" action="/Home/OrderQuery" method="post">
+    <input type="search" id="tbxSearchKeys" name="tbxSearchKeys" placeholder="订单号/品名/型号">
+</form>
+<ul data-role="listview">
+@foreach (var order in Model.OrderList)
+{
+    <li data-role="list-divider">
+        <div class="ui-grid-a">
+            <div class="ui-block-a">订单号:@Html.DisplayFor(modelItem => order.OrderNo)</div>
+            <div class="ui-block-b">金额:@Html.DisplayFor(modelItem => order.Amount)</div>
+        </div>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">时间:@Html.DisplayFor(modelItem => order.TransTime)</div>
+            <div class="ui-block-b"></div>
+        </div>
+    </li>
+    <li style="font-size:small">
+        @foreach (var orderItem in order.Items)
+        {
+        <div class="ui-grid-a">
+            <div class="ui-block-a">品名:@Html.DisplayFor(modelItem => orderItem.c_cpdn_ename)</div>
+            <div class="ui-block-b">型号:@Html.DisplayFor(modelItem => orderItem.c_cpdn_ecode)</div>
+        </div>
+        <div class="ui-grid-a" style="margin-bottom:3px">
+            <div class="ui-block-a">数量:@Html.DisplayFor(modelItem => orderItem.Qty)</div>
+            <div class="ui-block-b">单价:@Html.DisplayFor(modelItem => orderItem.Price)</div>
+        </div>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">运费:@Html.DisplayFor(modelItem => orderItem.Freight)</div>
+            <div class="ui-block-b">状态:@Html.DisplayFor(modelItem => orderItem.Status)</div>
+        </div>
+        }
+    </li>
+}   
+</ul>
+@if (ViewData.ContainsKey("RetMessage"))
+{
+    <div class="alertor">
+        <p>@ViewData["RetMessage"]</p>
+    </div>
+}
+
+@{
+    Html.RenderPartial("_LayoutFooter");
+}

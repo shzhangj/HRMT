@@ -1,0 +1,13 @@
+﻿@model List<HRMTWeb.Models.AddressInfo>
+@{
+    Layout = null;
+}
+@foreach (var item in Model)
+{
+    <li class="addr-line">
+        <span>@Html.DisplayFor(modelItem => item.AddressText)</span>
+        <br>
+        <span>@Html.DisplayFor(modelItem => item.ContactPerson)/@Html.DisplayFor(modelItem => item.ContactTel) @Html.DisplayFor(modelItem => item.ExpressCompanyName)</span>
+        @Html.HiddenFor(modelItem => item.AddressID, new { id = "hidAddressID" })
+    </li>
+}

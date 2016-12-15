@@ -1,0 +1,57 @@
+﻿.table_content{   
+    padding: 2px;
+}
+.table_content span{
+    line-height: 2;
+}
+.tabel_row{                
+    border-bottom:solid 1px #d3d3d3
+}
+.tabel_label{
+    display: block;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color:#666;    
+    vertical-align: middle;
+    text-align:left;
+}
+.tabel_label label{
+    font-size:medium;
+    font-weight:normal;
+    vertical-align:middle;
+}
+.button_line{
+    text-align:center;
+    background-color:#fafafa;
+    padding:5px 0 5px 0;
+}
+.button_line input,a{
+    margin-left:5px;
+}
+.vertical-center{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.dateOnly{
+    width:100px;display:inline
+}
+.dateTime{
+    width:140px;display:inline
+}
+.timeOnly{
+    width:65px;display:inline
+}
+.qtySelector{
+
+}
+.qtySelector input,button{
+    display:inline
+}
+.qtySelector input{
+    display:inline;
+    width:50px;
+}
