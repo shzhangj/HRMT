@@ -52,7 +52,7 @@ namespace HRMTWeb.Controllers
             else
             {
                 AppSessionHelper.User = user;
-                return RedirectToAction("StockQuery", "Home");
+                return RedirectToAction("MemberView", "Account");
             }
         }
         [Authentication]

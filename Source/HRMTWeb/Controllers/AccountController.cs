@@ -21,7 +21,6 @@ namespace HRMTWeb.Controllers
         }
         public ActionResult MemberView()
         {
-            //TODO::客户ID
             CustomerInfo customer = null;
             try
             {

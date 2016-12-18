@@ -142,6 +142,7 @@
     <Compile Include="Models\AddressContainer.cs" />
     <Compile Include="Models\AddressInfo.cs" />
     <Compile Include="Models\CollectionDetailInfo.cs" />
+    <Compile Include="Models\CustomerAccountInfo.cs" />
     <Compile Include="Models\CustomerInfo.cs" />
     <Compile Include="Models\ExpressCompanyInfo.cs" />
     <Compile Include="Models\OrderContainer.cs" />

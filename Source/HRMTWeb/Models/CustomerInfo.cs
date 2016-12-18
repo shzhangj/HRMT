@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HRMTWeb.Action;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -23,11 +24,7 @@ namespace HRMTWeb.Models
         /// <summary>
         /// 联系方式
         /// </summary>
-        public string ContactTel { get; set; }
-        /// <summary>
-        /// 公司收款账号
-        /// </summary>
-        public string CustomerAccountNo { get; set; }
+        public string ContactTel { get; set; }        
         /// <summary>
         /// 当前欠款
         /// </summary>
@@ -36,5 +33,19 @@ namespace HRMTWeb.Models
         /// 未发货金额
         /// </summary>
         public decimal UnfilledOrderAmount { get; set; }
+        List<CustomerAccountInfo> _accountList = null;
+        public List<CustomerAccountInfo> AccountList
+        {
+            get
+            {
+                if (_accountList == null)
+                    _accountList = ShoppingCartAction.GetAccountList();
+                return _accountList;
+            }
+            set
+            {
+                _accountList = value;
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@
                             <label for="cbx_@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].gwcid)">@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].cpcode)</label>
                             <input type="checkbox" name="ShoppingCartList[@i].selected" id="cbx_@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].gwcid)" class="p_Cbx">
                             <input type="hidden" name="ShoppingCartList[@i].gwcid" value="@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].gwcid)" class="p_gwcid" />
+                            <input type="hidden" name="ShoppingCartList[@i].cpdnid" value="@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].cpdnid)" />
                             <input type="hidden" name="ShoppingCartList[@i].cpcode" value="@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].cpcode)" />
                             <input type="hidden" name="ShoppingCartList[@i].cpzlName" value="@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].cpzlName)" />
                             <input type="hidden" name="ShoppingCartList[@i].FPrice" value="@Html.DisplayFor(modelItem => Model.ShoppingCartList[i].FPrice)" class="p_Price" />

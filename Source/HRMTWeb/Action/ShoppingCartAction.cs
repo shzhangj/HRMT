@@ -134,16 +134,15 @@ FROM t_khshrlb WHERE khshrlbID = @AddressID";
             errText = "";
             string sql_create_order = @"INSERT INTO t_khdd(wldwid,wlxxdnid,shAddr,shr,FMobile,FTel,ecode,tranmemo,createby,createtime,
 closestatus,estatus,xstatus,trantime)
-SELECT a.wldwid,a.wlxxdnid,a.shAddr,a.shr,a.FMobile,a.FTel,@OrderNo,@Remark,@UserCode,Getdate(),
-0,1,1,Getdate()
+SELECT a.wldwid,a.wlxxdnid,a.shAddr,a.shr,a.FMobile,a.FTel,@OrderNo,@Remark,@UserCode,Convert(varchar(20),GETDATE(),120),
+0,1,1,Convert(varchar(20),GETDATE(),120)
 FROM t_khshrlb a WHERE khshrlbID = @khshrlbID
 SELECT SCOPE_IDENTITY()",
                 sql_create_orderDtl = @"INSERT INTO t_khddmx(khddid,cpzlid,cpdnid,xh,Remark,FQty,FPrice,FAmount,xstatus)
-SELECT @khddid,p.cpdnid,c.cpdnid,@SeqID,@Remark,@Qty,@Price,@Amount,1
-FROM t_gwc c
-	JOIN c_cpdn p ON c.cpdnid = p.cpdnid
+SELECT @khddid,p.cpzlid,p.cpdnid,@SeqID,@Remark,@Qty,@Price,@Amount,0
+FROM c_cpdn p
 	JOIN c_cpzl pt ON p.cpzlid = pt.cpzlid
-WHERE c.gwcid = @gwcid";
+WHERE p.cpdnid = @cpdnid";
             string orderNo = DateTime.Now.ToString("yyMMddHHmmss");
             using (EntityDBContext dbc = EntityInitializer.GetDBContext(AppConstants.DbPair.Main))
             {
@@ -165,7 +164,7 @@ WHERE c.gwcid = @gwcid";
                             Qty = sc.FQtry,
                             Price = sc.FPrice,
                             Amount = sc.FAmount,
-                            gwcid = sc.gwcid
+                            cpdnid = sc.cpdnid
                         });
                         seq++;
                         //删除购物车记录
@@ -211,6 +210,16 @@ WHERE c.gwcid = @gwcid";
                 ord.Amount = ord.Items.Sum(e => e.Amount);
             }
             return orderDict.Values.ToList();
+        }
+        public static List<CustomerAccountInfo> GetAccountList()
+        {
+            string sql = @"SELECT ecode AS AccountNo, ename AS AccountName,khyh OpenBankName FROM c_Account ORDER BY xh";
+            List<CustomerAccountInfo> rawDataList = null;
+            using (EntityDBContext dbc = EntityInitializer.GetDBContext(AppConstants.DbPair.Main))
+            {
+                rawDataList = dbc.Query<CustomerAccountInfo>(sql);
+            }
+            return rawDataList;
         }
     }
 }
