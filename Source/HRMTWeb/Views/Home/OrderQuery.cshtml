@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "我的订单";
 }
+
+@{
+    Html.RenderPartial("_LayoutHeader");
+}
 <form role="form" action="/Home/OrderQuery" method="post">
     <input type="search" id="tbxSearchKeys" name="tbxSearchKeys" placeholder="订单号/品名/型号">
 </form>

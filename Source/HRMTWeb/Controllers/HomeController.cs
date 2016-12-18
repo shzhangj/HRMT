@@ -17,7 +17,7 @@ namespace HRMTWeb.Controllers
         
         public ActionResult Index()
         {
-            return View("StockQuery");
+            return RedirectToAction("MemberView","Account");
         }
         
         [HttpPost]

@@ -6,7 +6,9 @@
 
 @Scripts.Render("~/bundles/mobiscroll")
 @Styles.Render("~/bundles/mobiscroll/css")
-
+@{
+    Html.RenderPartial("_LayoutHeader");
+}
 <form role="form" action="/Home/DoVoucherQuery" method="post">
     <input type="text" id="FromDate" name="FromDate" placeholder="起始日期" value="2016-10-26" />
     <input type="text" id="ToDate" name="ToDate" placeholder="结束日期" value="2016-11-26" />

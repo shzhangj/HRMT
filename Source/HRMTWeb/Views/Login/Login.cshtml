@@ -41,7 +41,8 @@
                     <div class="col-sm-6 col-sm-offset-3 form-box">
                         <div class="form-top">
                             <div class="form-top-left">
-                                <h3>华尔美特网上订单管理系统</h3>
+                                <h2>华尔美特</h2>
+                                <h3>网上订单管理系统</h3>
                                 <p>Wallmate online order management system</p>
                             </div>
                             <div class="form-top-right">
@@ -49,7 +50,7 @@
                             </div>
                         </div>
                         <div class="form-bottom">
-                            <form role="form" action="/Login/DoLogin" method="post" class="login-form">
+                            <form role="form" id="frmLogin" class="login-form">
                                 <div class="form-group">
                                     <label class="sr-only" for="form-username">账号</label>
                                     <input type="text" name="form_username" placeholder="账号..." class="form-username form-control" id="form_username" value="@ViewData["UserCode"]">
@@ -58,23 +59,15 @@
                                     <label class="sr-only" for="form-password">密码</label>
                                     <input type="password" name="form_password" placeholder="密码..." class="form-password form-control" id="form_password">
                                 </div>
-                                <button type="submit" class="btn">登录</button>
-                            </form>
-                            @if (ViewData.ContainsKey("RetMessage"))
-                            {
-                                <div class="alert alert-warning" role="alert">
-                                    <p id="retMsg">@ViewData["RetMessage"]</p>
+                                <div class="social-login-buttons">
+                                    <a class="btn btn-link-1" href="#" id="lbLogin">
+                                        <i class="fa fa-sign-in">登录</i>
+                                    </a>
+                                    <a class="btn btn-link-1" href="#" id="lbSetting">
+                                        <i class="fa fa-adjust">设置</i>
+                                    </a>
                                 </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3 social-login">
-                        <div class="social-login-buttons">
-                            <a class="btn btn-link-1" href="#">
-                                <i class="fa fa-twitter"></i> 系统设置
-                            </a>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -82,12 +75,57 @@
         </div>
     </div>
     <script>
+        function f_GetNativeItf() {
+            if (typeof nativeItf != "undefined" && typeof nativeItf.ClientProcess != "undefined")
+                return nativeItf;
+            return false;
+        }
+        function f_getDefaultCredential() {
+            var nativeItf = f_GetNativeItf();
+            if (!nativeItf) return;
+            var userCredential = nativeItf.GetDefaultVal("UserCredential");
+            var uArr = userCredential.split("@@");
+            if (uArr.length == 2) {
+                $("#form_username").val(uArr[0]);
+                $("#form_password").val(uArr[1]);
+            }
+        }
         $(function () {
             $(".container").css({ opacity: .8 });   //设置透明度
             $.backstretch([
                   "/Content/Bootstrap/assets_login/img/backgrounds/1.jpg",
                   "/Content/Bootstrap/assets_login/img/backgrounds/1@2x.jpg"
-            ], { duration: 3000, fade: 750 });            
+            ], { duration: 3000, fade: 750 });
+
+            $("#lbLogin").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Login/DoLogin",
+                    dataType: "json",
+                    data: $('#frmLogin').serialize(),
+                    success: function (ret) {
+                        if (ret.IsSuccess) {
+                            var nativeItf = f_GetNativeItf();
+                            if (!nativeItf)
+                                location.href = "/Account/MemberView";
+                            else {
+                                nativeItf.SetDefaultVal("UserCredential", $("#form_username").val() + '@@' + $("#form_password").val());
+                                nativeItf.ClientProcess("Login");
+                            }
+                        }
+                        else {
+                            alert("登录失败!信息:" + ret.ErrText);
+                        }
+                    }
+                });
+            });
+            $("#lbSetting").click(function () {
+                var nativeItf = f_GetNativeItf();
+                if (nativeItf)
+                    nativeItf.ClientProcess("Setting");
+            });
+
+            f_getDefaultCredential();
         });
     </script>
 </body>

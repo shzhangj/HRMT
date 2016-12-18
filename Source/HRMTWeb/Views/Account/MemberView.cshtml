@@ -4,6 +4,9 @@
     ViewBag.Title = "会员中心";
 }
 <div data-role="page" id="pgMemberView">
+@{
+    Html.RenderPartial("_LayoutHeader");
+}
 <table data-role="table" class="ui-responsive" style="font-size:small">
     <thead>
         <tr>
@@ -33,8 +36,8 @@
     <thead>
         <tr>
             <th>账号</th>
-            <th>账户名称</th>
             <th>开户银行</th>
+            <th>账户名称</th>
         </tr>
     </thead>
     <tbody>
@@ -44,9 +47,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.AccountNo)
             </td>
-            <td>@Html.DisplayFor(modelItem => item.AccountName)</td>
             <td>@Html.DisplayFor(modelItem => item.OpenBankName)</td>
-        </tr>    
+            <td>@Html.DisplayFor(modelItem => item.AccountName)</td>
+        </tr>
         }
     </tbody>
 </table>
@@ -55,6 +58,7 @@
     </div>
     <div class="button_line">
         <a href="#popChangePwd" data-rel="popup" data-position-to="window" data-transition="fade" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">修改密码</a>
+        <a href="#" id="lbExit" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">安全退出</a>
     </div>
     <div data-role="popup" id="popChangePwd" data-overlay-theme="b">
         <div data-role="header">
@@ -81,6 +85,11 @@
     Html.RenderPartial("_LayoutFooter");
 }
     <script>
+        function f_GetNativeItf() {
+            if (typeof nativeItf != "undefined" && typeof nativeItf.ClientProcess != "undefined")
+                return nativeItf;
+            return false;
+        }
         $(function () {
             $("#lbSavePWD").click(function () {
                 var newPwd = $("#form-newPassword").val(),
@@ -112,6 +121,11 @@
                         }
                     }
                 });
+            });
+            $("#lbExit").click(function () {
+                var nativeItf = f_GetNativeItf();
+                if (nativeItf)
+                    nativeItf.ClientProcess("Exit");
             });
         });
         function closePop() {

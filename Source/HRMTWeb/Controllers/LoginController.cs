@@ -38,22 +38,15 @@ namespace HRMTWeb.Controllers
                     throw new Exception("账号或密码错误!");
                 if (user.FPwd != form_password && user.FPwd != md5Pwd)
                     throw new Exception("账号或密码错误!");
+
+                AppSessionHelper.User = user;
             }
             catch (Exception ex)
             {
                 errText = ex.Message;
             }
-            if (errText != "")
-            {
-                ViewData["RetMessage"] = errText;
-                ViewData["UserCode"] = form_username;
-                return View("Login");
-            }
-            else
-            {
-                AppSessionHelper.User = user;
-                return RedirectToAction("MemberView", "Account");
-            }
+            var retJObj = new { IsSuccess = string.IsNullOrEmpty(errText), ErrText = errText };
+            return Json(retJObj);
         }
         [Authentication]
         [HttpPost]

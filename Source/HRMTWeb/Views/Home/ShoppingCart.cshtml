@@ -3,10 +3,13 @@
 @{
     ViewBag.Title = "购物车";
 }
-<div data-role="page" id="pgShoppingCart" style="font-size:small">
+<div data-role="page" id="pgShoppingCart">
+    @{
+        Html.RenderPartial("_LayoutHeader");
+    }
 @if (Model.ShoppingCartList.Count > 0)
 {
-    <form action="/Home/ShoppingSubmit" method="post" id="formSubmit" >        
+    <form action="/Home/ShoppingSubmit" method="post" id="formSubmit" style="font-size:small" >        
         @for (int i = 0; i < Model.ShoppingCartList.Count; i++)
         {
             <ul data-role="listview" data-inset="true">

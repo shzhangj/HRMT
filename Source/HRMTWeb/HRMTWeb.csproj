@@ -526,6 +526,7 @@
     <Content Include="Views\Home\ucAddressView.cshtml" />
     <Content Include="Views\Home\ucAddressSelector.cshtml" />
     <Content Include="Views\Home\ucExpressSelector.cshtml" />
+    <Content Include="Views\Shared\_LayoutHeader.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

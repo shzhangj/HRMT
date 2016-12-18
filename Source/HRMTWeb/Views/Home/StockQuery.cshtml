@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "库存查询";
 }
+
+@{
+    Html.RenderPartial("_LayoutHeader");
+}
 <form role="form" action="/Home/DoStockQuery" method="post">
     <input type="search" id="QueryKey" name="QueryKey" placeholder="请输入需要查询的产品型号">
 </form>
